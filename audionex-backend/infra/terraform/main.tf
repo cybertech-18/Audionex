@@ -6,6 +6,7 @@ terraform {
     }
   }
 
+  /*
   backend "s3" {
     # This will be configured in the CI/CD pipeline
     # bucket         = "your-terraform-state-bucket"
@@ -14,6 +15,7 @@ terraform {
     # encrypt        = true
     # dynamodb_table = "your-terraform-lock-table"
   }
+  */
 }
 
 provider "aws" {
