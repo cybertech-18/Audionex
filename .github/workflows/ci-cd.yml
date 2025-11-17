@@ -90,6 +90,16 @@ jobs:
         run: terraform init
         working-directory: ./audionex-backend/infra/terraform
 
+      - name: Clean up conflicting resources
+        continue-on-error: true
+        run: |
+          # Delete IAM role if it exists
+          aws iam detach-role-policy --role-name audionex-eks-cluster-role-staging --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy 2>/dev/null || true
+          aws iam delete-role --role-name audionex-eks-cluster-role-staging 2>/dev/null || true
+          
+          # Delete DB subnet group if it exists
+          aws rds delete-db-subnet-group --db-subnet-group-name audionex-sng-staging 2>/dev/null || true
+
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve
