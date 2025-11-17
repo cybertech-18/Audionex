@@ -54,11 +54,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
+        id: build-and-push
         uses: docker/build-push-action@v4
         with:
           context: ./audionex-backend
           push: true
-          tags: ghcr.io/${{ github.repository }}/audionex-api:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository_owner }}/audionex/audionex-api:${{ github.sha }}
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -110,7 +111,7 @@ jobs:
         run: |
           helm upgrade --install audionex ./audionex-backend/infra/helm/charts/audionex \
             --namespace default \
-            --set image.repository=ghcr.io/${{ github.repository }}/audionex-api \
+            --set image.repository=ghcr.io/${{ github.repository_owner }}/audionex/audionex-api \
             --set image.tag=${{ github.sha }} \
             --set secrets.databaseUrl="postgresql://admin:${{ steps.tf-outputs.outputs.rds_password }}@${{ steps.tf-outputs.outputs.rds_endpoint }}/audionex" \
             --wait
