@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audionex — Build Intelligent Voice Agents From a Single Prompt</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f7f8fc;
+            color: #333;
+        }
+        .container {
+            max-width: 960px;
+            margin: auto;
+            padding: 0 20px;
+        }
+        header {
+            background: #fff;
+            padding: 20px 0;
+            border-bottom: 1px solid #e6e6e6;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #333;
+        }
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: #fff;
+        }
+        .hero h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+        .cta-button {
+            background: #007aff;
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            transition: background 0.3s;
+        }
+        .cta-button:hover {
+            background: #005bb5;
+        }
+        .section {
+            padding: 60px 0;
+        }
+        .section h3 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 40px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        .feature {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .feature h4 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+        .how-it-works {
+            text-align: center;
+        }
+        .step {
+            margin-bottom: 20px;
+        }
+        .developer-sdk {
+            background: #2d2d2d;
+            color: #f5f5f5;
+            padding: 40px;
+            border-radius: 8px;
+            font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+        }
+        .developer-sdk pre {
+            white-space: pre-wrap;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>🔊 Audionex</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h2>Build Intelligent Voice Agents From a Single Prompt</h2>
+            <p>Audionex is a next-generation platform for creating, testing, and deploying AI-powered voice agents—without complex engineering.</p>
+            <a href="#" class="cta-button">Get Started for Free</a>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h3>Key Features</h3>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">🌟</div>
+                        <h4>Prompt-Based Agent Creation</h4>
+                        <p>Build full voice agents simply by describing their behavior. No coding required.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🎛️</div>
+                        <h4>Visual Flow Designer</h4>
+                        <p>Edit your agent visually with a drag-and-drop call flow designer.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🧠</div>
+                        <h4>Knowledge-Driven Conversations</h4>
+                        <p>Upload PDFs, docs, or URLs to ground your agents with accurate, factual information.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🧪</div>
+                        <h4>Simulation & Testing Suite</h4>
+                        <p>Run automated scenarios to test interruptions, edge cases, and more.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📞</div>
+                        <h4>Phone Agent Deployment</h4>
+                        <p>Assign a real phone number to your agent and launch voice experiences instantly.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🔌</div>
+                        <h4>API & Integration Layer</h4>
+                        <p>Connect with CRMs, calendars, payment systems, and custom REST APIs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="background: #fff;">
+            <div class="container how-it-works">
+                <h3>How It Works in 5 Simple Steps</h3>
+                <div class="step"><strong>1. Describe Your Agent:</strong> Write a plain English prompt to define your agent's goals.</div>
+                <div class="step"><strong>2. Customize:</strong> Use the visual flow designer to tweak the agent's logic and voice.</div>
+                <div class="step"><strong>3. Add Knowledge:</strong> Upload documents to ground your agent in factual data.</div>
+                <div class="step"><strong>4. Test:</strong> Run simulations to ensure your agent is ready for real-world interactions.</div>
+                <div class="step"><strong>5. Deploy:</strong> Assign a phone number and go live in minutes.</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h3>Built for Developers</h3>
+                <p style="text-align:center; max-width: 700px; margin: 0 auto 40px;">Use the Audionex SDK to manage agents, automate updates, integrate workflows, and control your voice AI from any application.</p>
+                <div class="developer-sdk">
+                    <pre><code>from audionex import Client
+
+client = Client(api_key="your_api_key")
+
+# Create a new agent from a prompt
+agent = client.agent.create(
+  prompt="You are a friendly assistant that helps users book appointments.",
+  voice="alloy",
+  knowledge_urls=["https://example.com/faq"]
+)
+
+# Assign a phone number
+phone_number = client.phone.assign(agent_id=agent.id)
+print(f"Agent is live at: {phone_number.e164}")
+
+# List all agents
+agents = client.agent.list()
+print(agents)
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="background: #fff;">
+            <div class="container">
+                <h3>Why Teams Choose Audionex</h3>
+                <div class="features-grid">
+                    <div class="feature"><h4>Zero Setup Required</h4></div>
+                    <div class="feature"><h4>Deploy in Minutes</h4></div>
+                    <div class="feature"><h4>Clean Developer Experience</h4></div>
+                    <div class="feature"><h4>Enterprise-Grade Scalability</h4></div>
+                    <div class="feature"><h4>Real-Time Observability</h4></div>
+                    <div class="feature"><h4>Flexible API Integrations</h4></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero">
+            <h2>Ready to Build the Future of Voice AI?</h2>
+            <p>Sign up now and deploy your first intelligent voice agent in minutes.</p>
+            <a href="#" class="cta-button">Start Your Free Trial</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Audionex. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

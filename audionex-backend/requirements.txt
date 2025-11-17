@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+redis
+pydantic[dotenv]
+pinecone-client
+openai
+tiktoken
+pypdf
+beautifulsoup4
+requests
+twilio
+websockets

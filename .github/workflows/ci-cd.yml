@@ -1,0 +1,116 @@
+name: Audionex CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./audionex-backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  build-and-push-image:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./audionex-backend
+          push: true
+          tags: ghcr.io/${{ github.repository }}/audionex-api:${{ github.sha }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+
+  deploy-to-k8s:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    needs: build-and-push-image
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # Or your desired region
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.2.0
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+        working-directory: ./audionex-backend/infra/terraform
+
+      - name: Get Terraform Outputs
+        id: tf-outputs
+        run: |
+          echo "cluster_name=$(terraform output -raw eks_cluster_name)" >> $GITHUB_OUTPUT
+          echo "rds_endpoint=$(terraform output -raw rds_instance_endpoint)" >> $GITHUB_OUTPUT
+          echo "rds_password=$(terraform output -raw db_instance_password)" >> $GITHUB_OUTPUT
+        working-directory: ./audionex-backend/infra/terraform
+
+      - name: Set up kubectl
+        run: |
+          aws eks --region us-east-1 update-kubeconfig --name ${{ steps.tf-outputs.outputs.cluster_name }}
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'v3.9.0'
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install audionex ./audionex-backend/infra/helm/charts/audionex \
+            --namespace default \
+            --set image.repository=ghcr.io/${{ github.repository }}/audionex-api \
+            --set image.tag=${{ github.sha }} \
+            --set secrets.databaseUrl="postgresql://admin:${{ steps.tf-outputs.outputs.rds_password }}@${{ steps.tf-outputs.outputs.rds_endpoint }}/audionex" \
+            --wait
